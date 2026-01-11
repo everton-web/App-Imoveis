@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, PropertyType, PropertyStatus } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
@@ -28,8 +28,8 @@ async function main() {
             title: 'Casa Moderna em Condomínio Fechado',
             description: 'Linda casa moderna com 3 quartos, piscina e área gourmet. Localizada em condomínio fechado de alto padrão com segurança 24h.',
             price: 850000,
-            type: 'HOUSE',
-            status: 'AVAILABLE',
+            type: 'HOUSE' as PropertyType,
+            status: 'AVAILABLE' as PropertyStatus,
             address: 'Rua das Palmeiras, 123',
             city: 'São Paulo',
             state: 'SP',
@@ -62,8 +62,8 @@ async function main() {
             title: 'Apartamento Luxuoso Vista Mar',
             description: 'Apartamento de alto padrão com vista panorâmica para o mar. 4 suítes, varanda gourmet e 3 vagas de garagem.',
             price: 1200000,
-            type: 'APARTMENT',
-            status: 'AVAILABLE',
+            type: 'APARTMENT' as PropertyType,
+            status: 'AVAILABLE' as PropertyStatus,
             address: 'Av. Atlântica, 456',
             city: 'Rio de Janeiro',
             state: 'RJ',
@@ -91,8 +91,8 @@ async function main() {
             title: 'Cobertura Duplex Centro',
             description: 'Cobertura duplex no centro da cidade com terraço privativo e churrasqueira.',
             price: 950000,
-            type: 'APARTMENT',
-            status: 'AVAILABLE',
+            type: 'APARTMENT' as PropertyType,
+            status: 'AVAILABLE' as PropertyStatus,
             address: 'Rua XV de Novembro, 789',
             city: 'Curitiba',
             state: 'PR',
@@ -120,8 +120,8 @@ async function main() {
             title: 'Terreno Comercial Esquina',
             description: 'Excelente terreno comercial em esquina movimentada, ideal para construção de prédio comercial.',
             price: 450000,
-            type: 'LAND',
-            status: 'AVAILABLE',
+            type: 'LAND' as PropertyType,
+            status: 'AVAILABLE' as PropertyStatus,
             address: 'Av. Paulista, 1000',
             city: 'São Paulo',
             state: 'SP',
