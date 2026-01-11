@@ -14,10 +14,10 @@ export function Footer() {
                             <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
                                 <Building2 className="w-6 h-6" />
                             </div>
-                            <span className="text-xl font-heading font-bold">Pluma</span>
+                            <span className="text-xl font-heading font-bold">Imóveis</span>
                         </div>
                         <p className="text-white/80 text-sm">
-                            Encontre o imóvel dos seus sonhos com a Pluma. Qualidade, confiança e excelência.
+                            Encontre o imóvel dos seus sonhos. Qualidade, confiança e excelência.
                         </p>
                     </div>
 
@@ -83,7 +83,7 @@ export function Footer() {
 
                 {/* Bottom */}
                 <div className="mt-12 pt-8 border-t border-white/10 text-center text-white/60 text-sm">
-                    <p>&copy; {currentYear} Pluma Imóveis. Todos os direitos reservados.</p>
+                    <p>&copy; {currentYear} Imóveis. Todos os direitos reservados.</p>
                 </div>
             </div>
         </footer>

@@ -21,8 +21,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-    title: "Pluma Imóveis - Encontre seu imóvel dos sonhos",
-    description: "Plataforma premium de imóveis com mapa interativo e sistema CMS completo",
+    title: "Imóveis - Encontre seu imóvel dos sonhos",
+    description: "Plataforma de imóveis com mapa interativo e sistema completo de gestão",
 };
 
 export default async function RootLayout({

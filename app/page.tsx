@@ -37,7 +37,7 @@ export default async function HomePage() {
     return (
         <div className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative bg-gradient-to-br from-primary-main via-primary-hover to-primary-main text-white overflow-hidden">
+            <section className="relative bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute inset-0" style={{
                         backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
@@ -49,7 +49,7 @@ export default async function HomePage() {
                     <div className="max-w-3xl">
                         <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
                             <Star className="w-4 h-4 text-accent-main" />
-                            <span className="text-sm font-medium">Plataforma Premium de Imóveis</span>
+                            <span className="text-sm font-medium">Plataforma de Imóveis</span>
                         </div>
 
                         <h1 className="text-display-1 font-heading mb-6 leading-tight">
@@ -58,7 +58,7 @@ export default async function HomePage() {
                         </h1>
 
                         <p className="text-body-lg text-white/90 mb-8 max-w-2xl">
-                            Explore nossa seleção exclusiva de imóveis premium com tecnologia de mapa interativo.
+                            Explore nossa seleção de imóveis com tecnologia de mapa interativo.
                             Qualidade, confiança e excelência em cada detalhe.
                         </p>
 

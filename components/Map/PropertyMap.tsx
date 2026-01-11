@@ -9,56 +9,63 @@ import Link from 'next/link'
 // Fix for default marker icons in Leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl
 L.Icon.Default.mergeOptions({
-    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
-    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
 })
 
 interface Property {
-    id: string
-    title: string
-    price: number
-    city: string
-    state: string
-    latitude: number
-    longitude: number
-    bedrooms: number | null
-    bathrooms: number | null
-    area: number | null
-    images: { url: string }[]
+  id: string
+  title: string
+  price: number
+  city: string
+  state: string
+  latitude: number
+  longitude: number
+  bedrooms: number | null
+  bathrooms: number | null
+  area: number | null
+  images: { url: string }[]
 }
 
 interface PropertyMapProps {
-    properties: Property[]
+  properties: Property[]
 }
 
 export default function PropertyMap({ properties }: PropertyMapProps) {
-    const mapRef = useRef<L.Map | null>(null)
-    const mapContainerRef = useRef<HTMLDivElement>(null)
+  const mapRef = useRef<L.Map | null>(null)
+  const mapContainerRef = useRef<HTMLDivElement>(null)
 
-    useEffect(() => {
-        if (!mapContainerRef.current || mapRef.current) return
+  useEffect(() => {
+    if (!mapContainerRef.current || mapRef.current) return
 
-        // Initialize map centered on Brazil
-        const map = L.map(mapContainerRef.current).setView([-15.7942, -47.8822], 4)
+    // Initialize map with globe view - centered on world with low zoom
+    const map = L.map(mapContainerRef.current, {
+      center: [20, 0], // Center of world
+      zoom: 2, // Low zoom for globe effect
+      minZoom: 2,
+      maxZoom: 18,
+      worldCopyJump: true,
+    })
 
-        // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            maxZoom: 19,
-        }).addTo(map)
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+      noWrap: false, // Allow wrapping for globe effect
+    }).addTo(map)
 
-        mapRef.current = map
+    mapRef.current = map
 
-        // Add markers for each property
-        if (properties.length > 0) {
-            const bounds = L.latLngBounds([])
+    // Add markers for each property
+    if (properties.length > 0) {
+      const bounds = L.latLngBounds([])
 
-            properties.forEach((property) => {
-                const marker = L.marker([property.latitude, property.longitude])
+      properties.forEach((property) => {
+        const marker = L.marker([property.latitude, property.longitude])
 
-                // Create custom popup
-                const popupContent = `
+        // Create custom popup
+        const popupContent = `
           <div class="p-2 min-w-[250px]">
             ${property.images[0] ? `
               <img 
@@ -84,38 +91,38 @@ export default function PropertyMap({ properties }: PropertyMapProps) {
           </div>
         `
 
-                marker.bindPopup(popupContent, {
-                    maxWidth: 300,
-                    className: 'custom-popup'
-                })
-                marker.addTo(map)
+        marker.bindPopup(popupContent, {
+          maxWidth: 300,
+          className: 'custom-popup'
+        })
+        marker.addTo(map)
 
-                bounds.extend([property.latitude, property.longitude])
-            })
+        bounds.extend([property.latitude, property.longitude])
+      })
 
-            // Fit map to show all markers
-            if (properties.length > 0) {
-                map.fitBounds(bounds, { padding: [50, 50] })
-            }
-        }
+      // Fit map to show all markers
+      if (properties.length > 0) {
+        map.fitBounds(bounds, { padding: [50, 50] })
+      }
+    }
 
-        // Cleanup
-        return () => {
-            if (mapRef.current) {
-                mapRef.current.remove()
-                mapRef.current = null
-            }
-        }
-    }, [properties])
+    // Cleanup
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove()
+        mapRef.current = null
+      }
+    }
+  }, [properties])
 
-    return (
-        <>
-            <div
-                ref={mapContainerRef}
-                className="w-full h-[calc(100vh-4rem)]"
-                style={{ zIndex: 0 }}
-            />
-            <style jsx global>{`
+  return (
+    <>
+      <div
+        ref={mapContainerRef}
+        className="w-full h-[calc(100vh-4rem)]"
+        style={{ zIndex: 0 }}
+      />
+      <style jsx global>{`
         .custom-popup .leaflet-popup-content-wrapper {
           border-radius: 12px;
           padding: 0;
@@ -128,6 +135,6 @@ export default function PropertyMap({ properties }: PropertyMapProps) {
           padding: 8px 12px !important;
         }
       `}</style>
-        </>
-    )
+    </>
+  )
 }

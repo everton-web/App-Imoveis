@@ -24,10 +24,10 @@ export function Navbar() {
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-2 group">
                         <div className="w-10 h-10 bg-gradient-to-br from-primary-main to-accent-main rounded-lg flex items-center justify-center group-hover:scale-110 transition-smooth">
-                            <span className="text-white font-heading font-bold text-xl">P</span>
+                            <span className="text-white font-heading font-bold text-xl">I</span>
                         </div>
                         <span className="text-xl font-heading font-bold text-primary-main">
-                            Pluma
+                            Imóveis
                         </span>
                     </Link>
 
@@ -41,8 +41,8 @@ export function Navbar() {
                                     key={link.href}
                                     href={link.href}
                                     className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-smooth ${isActive
-                                            ? 'bg-primary-main text-white'
-                                            : 'text-text-secondary hover:bg-secondary-light dark:hover:bg-secondary-dark hover:text-primary-main'
+                                        ? 'bg-primary-main text-white'
+                                        : 'text-text-secondary hover:bg-secondary-light dark:hover:bg-secondary-dark hover:text-primary-main'
                                         }`}
                                 >
                                     <Icon className="w-4 h-4" />
@@ -84,8 +84,8 @@ export function Navbar() {
                                 key={link.href}
                                 href={link.href}
                                 className={`flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-smooth ${isActive
-                                        ? 'text-primary-main'
-                                        : 'text-text-muted hover:text-primary-main'
+                                    ? 'text-primary-main'
+                                    : 'text-text-muted hover:text-primary-main'
                                     }`}
                             >
                                 <Icon className="w-5 h-5" />
