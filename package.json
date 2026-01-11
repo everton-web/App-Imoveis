@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@prisma/client": "5.22.0",
+    "@types/three": "^0.182.0",
     "bcryptjs": "2.4.3",
     "cesium": "^1.137.0",
     "clsx": "2.1.1",
@@ -23,9 +24,11 @@
     "next-themes": "0.3.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-globe.gl": "^2.37.0",
     "react-leaflet": "4.2.1",
     "resium": "^1.19.2",
     "tailwind-merge": "2.7.0",
+    "three": "^0.182.0",
     "zod": "3.24.1"
   },
   "devDependencies": {
