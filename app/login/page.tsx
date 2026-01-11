@@ -93,7 +93,7 @@ export default function LoginPage() {
                             <strong>Credenciais de teste:</strong>
                         </p>
                         <p className="text-xs text-text-muted">
-                            Email: admin@pluma.com<br />
+                            Email: admin@imoveis.com<br />
                             Senha: admin123
                         </p>
                     </div>

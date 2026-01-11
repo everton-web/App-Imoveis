@@ -1,11 +1,11 @@
-# Pluma Imóveis
+# Imóveis Platform
 
 Plataforma premium de imóveis com mapa interativo e sistema CMS completo.
 
 ## 🚀 Tecnologias
 
 - **Frontend**: Next.js 15, React 19, TypeScript
-- **Styling**: Tailwind CSS com design system Pluma
+- **Styling**: Tailwind CSS com design system customizado
 - **Database**: PostgreSQL (Neon) com Prisma ORM
 - **Authentication**: NextAuth.js
 - **Maps**: Leaflet com OpenStreetMap
@@ -70,7 +70,7 @@ npm run db:seed
 ```
 
 Isso criará:
-- Usuário admin: `admin@pluma.com` / `admin123`
+- Usuário admin: `admin@imoveis.com` / `admin123`
 - 4 propriedades de exemplo
 
 5. **Inicie o servidor de desenvolvimento**
@@ -157,7 +157,7 @@ O mapa utiliza **Leaflet** (open-source) com **OpenStreetMap**:
    npx prisma db seed
    ```
 
-## 🎨 Design System Pluma
+## 🎨 Design System
 
 O projeto utiliza um design system completo baseado no JSON fornecido:
 
