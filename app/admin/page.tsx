@@ -1,150 +1,203 @@
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
-import { redirect } from 'next/navigation'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
-import { Button } from '@/components/ui/Button'
-import { Building2, Users, LayoutDashboard, LogOut } from 'lucide-react'
-import { signOut } from 'next-auth/react'
-import Link from 'next/link'
-import { prisma } from '@/lib/prisma'
+'use client';
 
-async function getStats() {
-    try {
-        const [totalProperties, availableProperties, totalUsers] = await Promise.all([
-            prisma.property.count(),
-            prisma.property.count({ where: { status: 'AVAILABLE' } }),
-            prisma.user.count(),
-        ])
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Plus, Download, Search, Building2, Eye, Car, Maximize } from 'lucide-react';
 
-        return {
-            totalProperties,
-            availableProperties,
-            totalUsers,
-        }
-    } catch (error) {
-        return {
-            totalProperties: 0,
-            availableProperties: 0,
-            totalUsers: 0,
-        }
-    }
+interface DashboardMetrics {
+    totalProperties: number;
+    availableProperties: number;
+    totalViews: number;
+    totalRevenue: number;
 }
 
-export default async function AdminDashboard() {
-    const session = await getServerSession(authOptions)
+interface Property {
+    id: string;
+    title: string;
+    price: number;
+    city: string;
+    state: string;
+    bedrooms: number | null;
+    bathrooms: number | null;
+    parkingSpots: number | null;
+    area: number | null;
+    type: string;
+    status: string;
+    publishStatus: string;
+    images: { url: string }[];
+    owner?: { name: string };
+}
 
-    if (!session) {
-        redirect('/login')
-    }
+const statusLabels: Record<string, { label: string; color: string }> = {
+    AVAILABLE: { label: 'Venda', color: 'bg-emerald-100 text-emerald-700' },
+    SOLD: { label: 'Vendido', color: 'bg-gray-100 text-gray-600' },
+    RENTED: { label: 'Alugado', color: 'bg-blue-100 text-blue-700' },
+};
 
-    const stats = await getStats()
+const publishLabels: Record<string, { label: string; color: string }> = {
+    PUBLISHED: { label: 'Publicado', color: 'bg-green-100 text-green-700' },
+    DRAFT: { label: 'Rascunho', color: 'bg-gray-100 text-gray-600' },
+};
+
+function formatPrice(value: number): string {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        minimumFractionDigits: 0,
+    }).format(value);
+}
+
+function formatCompact(value: number): string {
+    if (value >= 1000000) return `${(value / 1000000).toFixed(1)} mi`;
+    if (value >= 1000) return `${(value / 1000).toFixed(0)} mil`;
+    return value.toString();
+}
+
+export default function AdminDashboard() {
+    const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
+    const [properties, setProperties] = useState<Property[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const [metricsRes, propertiesRes] = await Promise.all([
+                    fetch('/api/dashboard/metrics'),
+                    fetch('/api/properties?limit=5'),
+                ]);
+
+                if (metricsRes.ok) setMetrics(await metricsRes.json());
+                if (propertiesRes.ok) {
+                    const data = await propertiesRes.json();
+                    setProperties(data.properties || data || []);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, []);
 
     return (
-        <div className="min-h-screen bg-background-subtle dark:bg-gray-950">
-            {/* Header */}
-            <div className="bg-primary-main text-white py-8">
-                <div className="container-custom">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-display-2 font-heading mb-2">
-                                Dashboard Administrativo
-                            </h1>
-                            <p className="text-white/90">
-                                Bem-vindo, {session.user.name}
-                            </p>
+        <div className="p-6">
+            {/* Page Title + Actions */}
+            <div className="flex items-center justify-between mb-6">
+                <div>
+                    <h1 className="text-xl font-semibold text-gray-900">Visão geral</h1>
+                    <p className="text-sm text-gray-500 mt-0.5">Acompanhe suas métricas em tempo real</p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <Link href="/admin/imoveis/novo">
+                        <button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800">
+                            <Plus className="w-4 h-4" />
+                            Novo imóvel
+                        </button>
+                    </Link>
+                    <button className="flex items-center gap-2 px-3 py-2 border border-gray-200 text-gray-600 text-sm rounded-lg hover:bg-gray-50">
+                        <Download className="w-4 h-4" />
+                    </button>
+                </div>
+            </div>
+
+            {/* Metrics */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <MetricCard
+                    label="Imóveis cadastrados"
+                    value={loading ? '...' : formatCompact(metrics?.totalProperties || 0)}
+                />
+                <MetricCard
+                    label="Disponíveis"
+                    value={loading ? '...' : String(metrics?.availableProperties || 0)}
+                />
+                <MetricCard
+                    label="Visitas"
+                    value={loading ? '...' : formatCompact(metrics?.totalViews || 0)}
+                />
+                <MetricCard
+                    label="Vendas"
+                    value={loading ? '...' : formatPrice(metrics?.totalRevenue || 0)}
+                />
+            </div>
+
+            {/* Recent Properties */}
+            <div>
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="font-medium text-gray-900">Últimos imóveis</h2>
+                    <Link href="/admin/imoveis" className="text-sm text-gray-500 hover:text-gray-700">
+                        Ver todos →
+                    </Link>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {loading ? (
+                        Array.from({ length: 4 }).map((_, i) => (
+                            <div key={i} className="bg-white rounded-lg border border-gray-200 overflow-hidden animate-pulse">
+                                <div className="h-36 bg-gray-100" />
+                                <div className="p-3 space-y-2">
+                                    <div className="h-4 bg-gray-100 rounded w-2/3" />
+                                    <div className="h-3 bg-gray-100 rounded w-1/2" />
+                                </div>
+                            </div>
+                        ))
+                    ) : properties.length > 0 ? (
+                        properties.map((property) => (
+                            <PropertyCard key={property.id} property={property} />
+                        ))
+                    ) : (
+                        <p className="col-span-full text-center py-8 text-gray-500">Nenhum imóvel cadastrado</p>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function MetricCard({ label, value }: { label: string; value: string }) {
+    return (
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+            <p className="text-xs text-gray-500 mb-1">{label}</p>
+            <p className="text-xl font-semibold text-gray-900">{value}</p>
+        </div>
+    );
+}
+
+function PropertyCard({ property }: { property: Property }) {
+    return (
+        <Link href={`/admin/imoveis/${property.id}`}>
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-sm transition-shadow">
+                <div className="relative h-36 bg-gray-100">
+                    {property.images?.[0] ? (
+                        <img src={property.images[0].url} alt={property.title} className="w-full h-full object-cover" />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                            <Building2 className="w-8 h-8 text-gray-300" />
                         </div>
-                        <Link href="/">
-                            <Button variant="secondary">
-                                Voltar ao Site
-                            </Button>
-                        </Link>
+                    )}
+                    <div className="absolute top-2 left-2 flex gap-1">
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${statusLabels[property.status]?.color}`}>
+                            {statusLabels[property.status]?.label}
+                        </span>
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${publishLabels[property.publishStatus]?.color}`}>
+                            {publishLabels[property.publishStatus]?.label}
+                        </span>
+                    </div>
+                </div>
+
+                <div className="p-3">
+                    <p className="text-sm font-medium text-gray-900 truncate">{property.title}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{property.city}, {property.state}</p>
+                    <p className="text-sm font-semibold text-gray-900 mt-2">{formatPrice(property.price)}</p>
+
+                    <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
+                        {property.area && <span className="flex items-center gap-1"><Maximize className="w-3 h-3" />{property.area}m²</span>}
+                        {property.bedrooms && <span>{property.bedrooms} quartos</span>}
+                        {property.parkingSpots && <span className="flex items-center gap-1"><Car className="w-3 h-3" />{property.parkingSpots}</span>}
                     </div>
                 </div>
             </div>
-
-            {/* Stats */}
-            <div className="container-custom py-12">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                    <Card>
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-text-secondary text-sm mb-1">Total de Imóveis</p>
-                                    <p className="text-4xl font-bold text-primary-main">{stats.totalProperties}</p>
-                                </div>
-                                <div className="w-16 h-16 bg-primary-main/10 rounded-full flex items-center justify-center">
-                                    <Building2 className="w-8 h-8 text-primary-main" />
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card>
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-text-secondary text-sm mb-1">Imóveis Disponíveis</p>
-                                    <p className="text-4xl font-bold text-accent-signal">{stats.availableProperties}</p>
-                                </div>
-                                <div className="w-16 h-16 bg-accent-signal/10 rounded-full flex items-center justify-center">
-                                    <Building2 className="w-8 h-8 text-accent-signal" />
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card>
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-text-secondary text-sm mb-1">Usuários</p>
-                                    <p className="text-4xl font-bold text-accent-main">{stats.totalUsers}</p>
-                                </div>
-                                <div className="w-16 h-16 bg-accent-main/10 rounded-full flex items-center justify-center">
-                                    <Users className="w-8 h-8 text-accent-main" />
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
-
-                {/* Quick Actions */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Ações Rápidas</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <Link href="/admin/imoveis/novo">
-                                <Button className="w-full" size="lg">
-                                    <Building2 className="w-5 h-5 mr-2" />
-                                    Adicionar Novo Imóvel
-                                </Button>
-                            </Link>
-                            <Link href="/admin/imoveis">
-                                <Button variant="secondary" className="w-full" size="lg">
-                                    <LayoutDashboard className="w-5 h-5 mr-2" />
-                                    Gerenciar Imóveis
-                                </Button>
-                            </Link>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                {/* User Info */}
-                <Card className="mt-6">
-                    <CardHeader>
-                        <CardTitle>Informações do Usuário</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                        <div className="space-y-2">
-                            <p><strong>Nome:</strong> {session.user.name}</p>
-                            <p><strong>Email:</strong> {session.user.email}</p>
-                            <p><strong>Role:</strong> <span className="px-3 py-1 bg-primary-main text-white rounded-full text-sm">{session.user.role}</span></p>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
-        </div>
-    )
+        </Link>
+    );
 }

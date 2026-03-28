@@ -34,6 +34,22 @@ enum PropertyType {
   FARM
 }
 
+enum PropertyPurpose {
+  RESIDENTIAL
+  COMMERCIAL
+}
+
+enum PropertyCategory {
+  UNDER_CONSTRUCTION  // Na Planta
+  READY               // Pronto
+}
+
+enum PropertyPublishStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String
@@ -47,6 +63,7 @@ model User {
   properties    Property[]
   accounts      Account[]
   sessions      Session[]
+  clients       Client[]
 }
 
 model Account {
@@ -92,14 +109,23 @@ model Property {
   type        PropertyType
   status      PropertyStatus @default(AVAILABLE)
   
+  // New fields for wizard
+  purpose       PropertyPurpose       @default(RESIDENTIAL)
+  category      PropertyCategory      @default(READY)
+  publishStatus PropertyPublishStatus @default(DRAFT)
+  
   // Location
   address     String
+  number      String?       // Número do imóvel
+  complement  String?       // Complemento
+  neighborhood String?      // Bairro
   city        String
   state       String
   zipCode     String
   country     String         @default("Brasil")
   latitude    Float
   longitude   Float
+  referencePoint String?     // Ponto de referência
   
   // Details
   bedrooms    Int?
@@ -130,6 +156,7 @@ model Property {
   @@index([type])
   @@index([city])
   @@index([featured])
+  @@index([publishStatus])
 }
 
 model PropertyImage {
@@ -143,3 +170,72 @@ model PropertyImage {
   
   @@index([propertyId])
 }
+
+// ==========================================
+// MÓDULO DE CLIENTES
+// ==========================================
+
+enum PersonType {
+  INDIVIDUAL  // Pessoa Física
+  COMPANY     // Pessoa Jurídica
+}
+
+enum ContactType {
+  PHONE
+  EMAIL
+  WHATSAPP
+}
+
+model Client {
+  id           String      @id @default(cuid())
+  personType   PersonType
+  
+  // Pessoa Física
+  name         String?
+  cpf          String?
+  
+  // Pessoa Jurídica
+  companyName  String?     // Razão Social
+  cnpj         String?
+  
+  notes        String?     @db.Text
+  
+  // Relations
+  userId       String
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contacts     Contact[]
+  representatives Representative[]
+  
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  
+  @@index([userId])
+  @@index([personType])
+}
+
+model Contact {
+  id        String      @id @default(cuid())
+  type      ContactType
+  value     String
+  label     String?     // Ex: "Celular", "Comercial"
+  isPrimary Boolean     @default(false)
+  
+  clientId  String
+  client    Client      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  
+  @@index([clientId])
+}
+
+model Representative {
+  id       String  @id @default(cuid())
+  name     String
+  role     String? // Ex: "Sócio", "Procurador"
+  email    String?
+  phone    String?
+  
+  clientId String
+  client   Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  
+  @@index([clientId])
+}
+
