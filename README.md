@@ -15,7 +15,8 @@ Plataforma premium de imóveis com mapa interativo e sistema CMS completo.
 
 - Node.js 18+ 
 - npm ou yarn
-- Conta no Neon (PostgreSQL)
+- Conta no Supabase (PostgreSQL)
+- Conta na Vercel (deploy)
 - (Opcional) Conta no Uploadthing para upload de imagens
 
 ## 🛠️ Instalação
@@ -128,34 +129,33 @@ O mapa utiliza **Leaflet** (open-source) com **OpenStreetMap**:
 - Zoom automático para mostrar todos os imóveis
 - Totalmente gratuito
 
-## 🚀 Deploy no Render
+## 🚀 Deploy na Vercel + Supabase
 
-1. **Crie um banco PostgreSQL no Neon**
-   - Acesse [neon.tech](https://neon.tech)
-   - Crie um novo projeto
-   - Copie a `DATABASE_URL`
+### 1. Criar Banco no Supabase
 
-2. **Crie um Web Service no Render**
-   - Acesse [render.com](https://render.com)
-   - Conecte seu repositório GitHub
-   - Configure:
-     - Build Command: `npm install && npx prisma generate && npm run build`
-     - Start Command: `npm start`
+1. Acesse [supabase.com](https://supabase.com) e crie um projeto
+2. Vá em **Settings → Database** e copie as connection strings:
+   - **Pooler URL** (porta 6543, com `?pgbouncer=true`) → `DATABASE_URL`
+   - **Direct URL** (porta 5432) → `DIRECT_URL`
 
-3. **Configure as variáveis de ambiente no Render**
-   ```
-   DATABASE_URL=<sua-url-do-neon>
-   NEXTAUTH_URL=<sua-url-do-render>
-   NEXTAUTH_SECRET=<sua-chave-secreta>
-   ```
+### 2. Rodar Migrations
 
-4. **Execute as migrations em produção**
-   
-   No Render Shell:
-   ```bash
-   npx prisma migrate deploy
-   npx prisma db seed
-   ```
+Com as URLs do Supabase no `.env` local:
+```bash
+npx prisma migrate deploy
+npm run db:seed
+```
+
+### 3. Deploy na Vercel
+
+1. Acesse [vercel.com](https://vercel.com) e conecte o repositório GitHub
+2. O Next.js será detectado automaticamente
+3. Configure as **Environment Variables**:
+   - `DATABASE_URL` → Pooler URL do Supabase
+   - `DIRECT_URL` → Direct URL do Supabase
+   - `NEXTAUTH_URL` → URL do deploy (ex: `https://app-imoveis.vercel.app`)
+   - `NEXTAUTH_SECRET` → Gere com `openssl rand -base64 32`
+4. Clique em **Deploy** 🚀
 
 ## 🎨 Design System
 
