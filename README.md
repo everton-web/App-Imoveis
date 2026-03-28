@@ -4,9 +4,9 @@ Plataforma premium de imóveis com mapa interativo e sistema CMS completo.
 
 ## 🚀 Tecnologias
 
-- **Frontend**: Next.js 15, React 19, TypeScript
+- **Frontend**: Next.js 14, React 18, TypeScript
 - **Styling**: Tailwind CSS com design system customizado
-- **Database**: PostgreSQL (Neon) com Prisma ORM
+- **Database**: PostgreSQL (Supabase) com Prisma ORM
 - **Authentication**: NextAuth.js
 - **Maps**: Leaflet com OpenStreetMap
 - **Upload**: Uploadthing (configurável)
@@ -42,8 +42,9 @@ cp .env.example .env
 Edite o arquivo `.env` com suas credenciais:
 
 ```env
-# Database (Neon PostgreSQL)
-DATABASE_URL="postgresql://user:password@host:5432/dbname?sslmode=require"
+# Database (Supabase PostgreSQL)
+DATABASE_URL="postgresql://postgres.[ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres?pgbouncer=true"
+DIRECT_URL="postgresql://postgres.[ref]:[password]@aws-0-[region].pooler.supabase.com:5432/postgres"
 
 # NextAuth
 NEXTAUTH_URL="http://localhost:3000"
@@ -62,7 +63,7 @@ openssl rand -base64 32
 
 Execute as migrations:
 ```bash
-npx prisma migrate dev
+npx prisma migrate deploy
 ```
 
 Popule o banco com dados iniciais:
