@@ -5,19 +5,22 @@ export function Footer() {
     const currentYear = new Date().getFullYear()
 
     return (
-        <footer className="bg-primary-main text-white mt-section">
-            <div className="container-custom py-12">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <footer className="bg-black border-t border-white/5 text-white mt-section relative overflow-hidden">
+            {/* Subtle glow in footer */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-primary-main/20 to-transparent"></div>
+            
+            <div className="container-custom py-16 relative z-10">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-8">
                     {/* Brand */}
                     <div className="space-y-4">
                         <div className="flex items-center space-x-2">
-                            <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-                                <Building2 className="w-6 h-6" />
+                            <div className="w-10 h-10 bg-primary-main/10 rounded-full flex items-center justify-center border border-primary-main/20">
+                                <span className="text-primary-main font-heading font-bold text-xl">A</span>
                             </div>
-                            <span className="text-xl font-heading font-bold">Imóveis</span>
+                            <span className="text-xl font-heading font-bold tracking-tight">Aetheos</span>
                         </div>
-                        <p className="text-white/80 text-sm">
-                            Encontre o imóvel dos seus sonhos. Qualidade, confiança e excelência.
+                        <p className="text-text-secondary text-sm leading-relaxed">
+                            A Inteligência Artificial está redefinindo mercados. Começamos pelo mercado imobiliário.
                         </p>
                     </div>
 
