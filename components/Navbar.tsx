@@ -24,10 +24,10 @@ export function Navbar() {
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-2 group">
                         <div className="w-10 h-10 bg-primary-main/10 rounded-full flex items-center justify-center group-hover:bg-primary-main/20 transition-smooth border border-primary-main/20">
-                            <span className="text-primary-main font-heading font-bold text-xl">A</span>
+                            <Building2 className="w-5 h-5 text-primary-main" />
                         </div>
                         <span className="text-xl font-heading font-bold text-white tracking-tight">
-                            Aetheos
+                            App Imóveis
                         </span>
                     </Link>
 

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
-import { ArrowRight, MapPin, Bed, Bath, Maximize, Star } from 'lucide-react'
+import { ArrowRight, MapPin, Bed, Bath, Maximize, Star, Building2 } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 import { formatPrice, formatArea } from '@/lib/utils'
 
@@ -37,58 +37,87 @@ export default async function HomePage() {
     return (
         <div className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden">
-                <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0" style={{
-                        backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-                        backgroundSize: '40px 40px',
-                    }} />
-                </div>
-
-                <div className="container-custom relative py-20 md:py-32">
-                    <div className="max-w-3xl">
-                        <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-                            <Star className="w-4 h-4 text-accent-main" />
-                            <span className="text-sm font-medium">Plataforma de Imóveis</span>
-                        </div>
-
-                        <h1 className="text-display-1 font-heading mb-6 leading-tight">
-                            Encontre o Imóvel dos Seus{' '}
-                            <span className="text-accent-main">Sonhos</span>
-                        </h1>
-
-                        <p className="text-body-lg text-white/90 mb-8 max-w-2xl">
-                            Explore nossa seleção de imóveis com tecnologia de mapa interativo.
-                            Qualidade, confiança e excelência em cada detalhe.
-                        </p>
-
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <Link href="/imoveis">
-                                <Button size="lg" variant="secondary">
-                                    Ver Imóveis
-                                    <ArrowRight className="w-5 h-5 ml-2" />
-                                </Button>
-                            </Link>
-                            <Link href="/mapa">
-                                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary-main">
-                                    <MapPin className="w-5 h-5 mr-2" />
-                                    Explorar Mapa
-                                </Button>
-                            </Link>
-                        </div>
+            <section className="relative min-h-screen flex items-center text-white overflow-hidden bg-black pt-24 pb-20">
+                {/* Aetheos Tech style glow backgrounds */}
+                <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary-main/20 rounded-full blur-[120px] -z-10 mix-blend-screen pointer-events-none" />
+                <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent-main/20 rounded-full blur-[120px] -z-10 mix-blend-screen pointer-events-none" />
+                
+                <div className="container-custom relative flex flex-col items-center justify-center text-center w-full z-10">
+                    <div className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 backdrop-blur-md px-4 py-1.5 rounded-full mb-8 mt-12">
+                        <span className="text-xs font-semibold text-primary-main tracking-widest uppercase">Experiência Elevada</span>
                     </div>
-                </div>
 
-                {/* Decorative wave */}
-                <div className="absolute bottom-0 left-0 right-0">
-                    <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-                        <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="currentColor" className="text-background-default dark:text-gray-950" />
-                    </svg>
+                    <h1 className="text-display-1 md:text-[5.5rem] font-heading mb-8 leading-[1.05] tracking-tight max-w-5xl mx-auto">
+                        A evolução na busca pelo <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-primary-main/80">imóvel perfeito.</span>
+                    </h1>
+
+                    <p className="text-body-lg md:text-xl text-text-secondary mb-12 max-w-2xl mx-auto font-medium">
+                        Explore propriedades premium através de uma plataforma moderna, com pesquisa inteligente e mapa interativo.
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                        <Link href="/imoveis">
+                            <Button size="lg" className="px-10 py-6 text-lg rounded-full">
+                                <Building2 className="w-5 h-5 mr-2" />
+                                Acessar Imóveis
+                            </Button>
+                        </Link>
+                        <Link href="/mapa">
+                            <Button size="lg" variant="outline" className="px-10 py-6 text-lg rounded-full backdrop-blur-md">
+                                <MapPin className="w-5 h-5 mr-2" />
+                                Explorar Mapa
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </section>
 
-            {/* Featured Properties */}
-            <section className="section-spacing bg-background-default dark:bg-gray-950">
+            {/* Stats Section (Aetheos inspired) */}
+            <section className="py-24 bg-black relative z-10 border-b border-white/5">
+                <div className="container-custom">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {/* Benefit 1 */}
+                        <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 hover:bg-[#111] transition-smooth group relative overflow-hidden flex flex-col items-start text-left">
+                            <div className="absolute -right-10 -top-10 w-32 h-32 bg-primary-main/5 rounded-full blur-2xl group-hover:bg-primary-main/10 transition-smooth"></div>
+                            <div className="w-12 h-12 rounded-lg bg-primary-main/10 border border-primary-main/20 flex items-center justify-center mb-6 relative z-10">
+                                <Maximize className="w-6 h-6 text-primary-main" />
+                            </div>
+                            <h4 className="text-xl font-bold text-white mb-3 relative z-10">Busca Inteligente</h4>
+                            <p className="text-sm text-text-secondary leading-relaxed relative z-10">Filtros avançados e precisos para encontrar exatamente a propriedade que atende a todas as suas exigências.</p>
+                        </div>
+                        {/* Benefit 2 */}
+                        <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 hover:bg-[#111] transition-smooth group relative overflow-hidden flex flex-col items-start text-left">
+                            <div className="absolute -right-10 -top-10 w-32 h-32 bg-primary-main/5 rounded-full blur-2xl group-hover:bg-primary-main/10 transition-smooth"></div>
+                            <div className="w-12 h-12 rounded-lg bg-primary-main/10 border border-primary-main/20 flex items-center justify-center mb-6 relative z-10">
+                                <MapPin className="w-6 h-6 text-primary-main" />
+                            </div>
+                            <h4 className="text-xl font-bold text-white mb-3 relative z-10">Mapa Interativo</h4>
+                            <p className="text-sm text-text-secondary leading-relaxed relative z-10">Explore bairros, descubra valorações locais e visualize os imóveis com precisão cirúrgica em tempo real.</p>
+                        </div>
+                        {/* Benefit 3 */}
+                        <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 hover:bg-[#111] transition-smooth group relative overflow-hidden flex flex-col items-start text-left">
+                            <div className="absolute -right-10 -top-10 w-32 h-32 bg-primary-main/5 rounded-full blur-2xl group-hover:bg-primary-main/10 transition-smooth"></div>
+                            <div className="w-12 h-12 rounded-lg bg-primary-main/10 border border-primary-main/20 flex items-center justify-center mb-6 relative z-10">
+                                <Building2 className="w-6 h-6 text-primary-main" />
+                            </div>
+                            <h4 className="text-xl font-bold text-white mb-3 relative z-10">Portfólio Exclusivo</h4>
+                            <p className="text-sm text-text-secondary leading-relaxed relative z-10">Acesso antecipado a imóveis de alto padrão e oportunidades de investimento que não estão no mercado aberto.</p>
+                        </div>
+                        {/* Benefit 4 */}
+                        <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8 hover:bg-[#111] transition-smooth group relative overflow-hidden flex flex-col items-start text-left">
+                            <div className="absolute -right-10 -top-10 w-32 h-32 bg-primary-main/5 rounded-full blur-2xl group-hover:bg-primary-main/10 transition-smooth"></div>
+                            <div className="w-12 h-12 rounded-lg bg-primary-main/10 border border-primary-main/20 flex items-center justify-center mb-6 relative z-10">
+                                <Star className="w-6 h-6 text-primary-main" />
+                            </div>
+                            <h4 className="text-xl font-bold text-white mb-3 relative z-10">Atendimento Premium</h4>
+                            <p className="text-sm text-text-secondary leading-relaxed relative z-10">Corretores experientes focados em oferecer consultoria e suporte integral durante toda sua jornada de compra.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Featured Properties (Now with dark backgrounds) */}
+            <section className="section-spacing bg-black">
                 <div className="container-custom">
                     <div className="text-center mb-12">
                         <h2 className="text-display-2 font-heading text-text-primary mb-4">
@@ -178,7 +207,8 @@ export default async function HomePage() {
             </section>
 
             {/* CTA Section */}
-            <section className="section-spacing bg-gradient-to-br from-secondary-light to-secondary-main dark:from-gray-800 dark:to-gray-900">
+            <section className="section-spacing relative overflow-hidden bg-black border-t border-white/5">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-[400px] bg-primary-main/10 rounded-full blur-[100px] -z-10 mix-blend-screen pointer-events-none" />
                 <div className="container-custom text-center">
                     <h2 className="text-display-2 font-heading text-text-primary mb-4">
                         Explore no Mapa Interativo
