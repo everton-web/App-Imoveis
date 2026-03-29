@@ -11,37 +11,37 @@ const config: Config = {
         extend: {
             colors: {
                 primary: {
-                    main: "#000000",
-                    hover: "#1a1a1a",
-                    DEFAULT: "#000000",
+                    main: "#f97316", // Aetheos Orange
+                    hover: "#ea580c",
+                    DEFAULT: "#f97316",
                 },
                 secondary: {
-                    main: "#FFFFFF",
-                    light: "#F9FAFB",
-                    dark: "#E5E7EB",
-                    DEFAULT: "#FFFFFF",
+                    main: "#000000",
+                    light: "#0a0a0a", // Surface color for cards
+                    dark: "#050505",
+                    DEFAULT: "#000000",
                 },
                 accent: {
-                    main: "#2563EB",
-                    hover: "#1D4ED8",
-                    light: "#3B82F6",
-                    DEFAULT: "#2563EB",
+                    main: "#06b6d4", // Cyan for secondary glows
+                    hover: "#0891b2",
+                    light: "#22d3ee",
+                    DEFAULT: "#06b6d4",
                 },
                 background: {
-                    default: "#FFFFFF",
-                    subtle: "#F9FAFB",
+                    default: "#000000",
+                    subtle: "#0a0a0a",
                     dark: "#000000",
                 },
                 text: {
-                    primary: "#000000",
-                    secondary: "#4B5563",
-                    muted: "#9CA3AF",
-                    inverted: "#FFFFFF",
+                    primary: "#ffffff",
+                    secondary: "#a3a3a3", // Neutral 400
+                    muted: "#525252",
+                    inverted: "#000000",
                 },
                 border: {
-                    light: "#E5E7EB",
-                    focus: "#2563EB",
-                    DEFAULT: "#E5E7EB",
+                    light: "rgba(255,255,255,0.05)",
+                    focus: "rgba(249,115,22,0.5)",
+                    DEFAULT: "rgba(255,255,255,0.05)",
                 },
             },
             fontFamily: {
@@ -49,9 +49,9 @@ const config: Config = {
                 body: ["var(--font-body)", "Inter", "sans-serif"],
             },
             fontSize: {
-                "display-1": ["3.5rem", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
-                "display-2": ["2.5rem", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600" }],
-                "heading-3": ["1.5rem", { lineHeight: "1.3", fontWeight: "600" }],
+                "display-1": ["4.5rem", { lineHeight: "1.05", letterSpacing: "-0.04em", fontWeight: "800" }],
+                "display-2": ["3.5rem", { lineHeight: "1.1", letterSpacing: "-0.03em", fontWeight: "700" }],
+                "heading-3": ["2rem", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
                 "body-lg": ["1.125rem", { lineHeight: "1.6", fontWeight: "400" }],
                 body: ["1rem", { lineHeight: "1.5", fontWeight: "400" }],
                 caption: ["0.875rem", { lineHeight: "1.4", fontWeight: "500" }],
@@ -62,6 +62,7 @@ const config: Config = {
                 md: "0.75rem",
                 lg: "1rem",
                 xl: "1.5rem",
+                "2xl": "2rem",
                 full: "9999px",
             },
             spacing: {
@@ -71,9 +72,10 @@ const config: Config = {
                 glass: "12px",
             },
             boxShadow: {
-                soft: "0 4px 6px -1px rgba(0, 0, 0, 0.05)",
-                medium: "0 10px 15px -3px rgba(0, 0, 0, 0.08)",
-                glow: "0 0 15px rgba(28, 63, 58, 0.3)",
+                soft: "0 4px 20px -2px rgba(0, 0, 0, 0.5)",
+                medium: "0 10px 30px -3px rgba(0, 0, 0, 0.6)",
+                glow: "0 0 20px rgba(249, 115, 22, 0.15)",
+                "glow-hover": "0 0 30px rgba(249, 115, 22, 0.3)",
             },
         },
     },
