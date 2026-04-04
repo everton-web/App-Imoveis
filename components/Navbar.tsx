@@ -18,15 +18,15 @@ export function Navbar() {
     ]
 
     return (
-        <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-full border border-white/10 bg-[#0a0a0a]/60 backdrop-blur-glass shadow-medium">
+        <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-full border border-black/10 bg-white/80 backdrop-blur-glass shadow-medium">
             <div className="px-4 md:px-8">
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-2 group">
-                        <div className="w-10 h-10 bg-primary-main/10 rounded-full flex items-center justify-center group-hover:bg-primary-main/20 transition-smooth border border-primary-main/20">
-                            <Building2 className="w-5 h-5 text-primary-main" />
+                        <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center group-hover:bg-gray-900 transition-smooth">
+                            <Building2 className="w-5 h-5 text-white" />
                         </div>
-                        <span className="text-xl font-heading font-bold text-white tracking-tight">
+                        <span className="text-xl font-heading font-bold text-black tracking-tight">
                             App Imóveis
                         </span>
                     </Link>
@@ -40,13 +40,13 @@ export function Navbar() {
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-smooth ${isActive
-                                        ? 'bg-white/10 text-white'
-                                        : 'text-text-secondary hover:text-white hover:bg-white/5'
+                                    className={`flex items-center space-x-2 px-5 py-2.5 rounded-full transition-smooth ${isActive
+                                        ? 'bg-black text-white font-medium'
+                                        : 'text-gray-500 hover:text-black hover:bg-black/5 font-medium'
                                         }`}
                                 >
                                     <Icon className="w-4 h-4" />
-                                    <span className="font-medium">{link.label}</span>
+                                    <span>{link.label}</span>
                                 </Link>
                             )
                         })}
@@ -56,20 +56,20 @@ export function Navbar() {
                     <div className="flex items-center space-x-3">
                         {session ? (
                             <Link href="/admin">
-                                <Button variant="ghost" size="sm" className="hidden md:flex text-white hover:bg-white/10">
+                                <Button variant="ghost" size="sm" className="hidden md:flex text-gray-900 hover:bg-black/5">
                                     <LayoutDashboard className="w-4 h-4 mr-2" />
                                     Dashboard
                                 </Button>
                             </Link>
                         ) : (
                             <Link href="/login">
-                                <Button variant="secondary" size="sm" className="hidden md:flex bg-white/10 text-white hover:bg-white/20 border-white/10">
+                                <Button variant="secondary" size="sm" className="hidden md:flex bg-black/5 text-gray-900 hover:bg-black/10 border-black/10">
                                     <LogIn className="w-4 h-4 mr-2" />
                                     Entrar
                                 </Button>
                             </Link>
                         )}
-                        <Button variant="primary" size="sm" className="hidden md:flex rounded-full">
+                        <Button variant="primary" size="sm" className="hidden md:flex">
                             Agendar Demo
                         </Button>
                     </div>
@@ -84,9 +84,9 @@ export function Navbar() {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`flex flex-col items-center space-y-1 px-3 py-2 rounded-lg transition-smooth ${isActive
-                                    ? 'text-white'
-                                    : 'text-text-muted hover:text-white'
+                                className={`flex flex-col items-center space-y-1 px-3 py-2 rounded-[10px] transition-smooth ${isActive
+                                    ? 'text-gray-900'
+                                    : 'text-text-muted hover:text-gray-900'
                                     }`}
                             >
                                 <Icon className="w-5 h-5" />

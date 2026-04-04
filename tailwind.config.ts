@@ -11,37 +11,37 @@ const config: Config = {
         extend: {
             colors: {
                 primary: {
-                    main: "#f97316", // Aetheos Orange
-                    hover: "#ea580c",
-                    DEFAULT: "#f97316",
-                },
-                secondary: {
                     main: "#000000",
-                    light: "#0a0a0a", // Surface color for cards
-                    dark: "#050505",
+                    hover: "#1a1a1a",
                     DEFAULT: "#000000",
                 },
+                secondary: {
+                    main: "#ffffff",
+                    light: "#f9fafb",
+                    dark: "#f3f4f6",
+                    DEFAULT: "#ffffff",
+                },
                 accent: {
-                    main: "#06b6d4", // Cyan for secondary glows
-                    hover: "#0891b2",
-                    light: "#22d3ee",
-                    DEFAULT: "#06b6d4",
+                    main: "#111827",
+                    hover: "#374151",
+                    light: "#4b5563",
+                    DEFAULT: "#111827",
                 },
                 background: {
-                    default: "#000000",
-                    subtle: "#0a0a0a",
-                    dark: "#000000",
+                    default: "#ffffff",
+                    subtle: "#fafafa",
+                    dark: "#111827",
                 },
                 text: {
-                    primary: "#ffffff",
-                    secondary: "#a3a3a3", // Neutral 400
-                    muted: "#525252",
-                    inverted: "#000000",
+                    primary: "#000000",
+                    secondary: "#6b7280",
+                    muted: "#9ca3af",
+                    inverted: "#ffffff",
                 },
                 border: {
-                    light: "rgba(255,255,255,0.05)",
-                    focus: "rgba(249,115,22,0.5)",
-                    DEFAULT: "rgba(255,255,255,0.05)",
+                    light: "rgba(0,0,0,0.05)",
+                    focus: "rgba(0,0,0,0.2)",
+                    DEFAULT: "rgba(0,0,0,0.1)",
                 },
             },
             fontFamily: {
@@ -57,10 +57,10 @@ const config: Config = {
                 caption: ["0.875rem", { lineHeight: "1.4", fontWeight: "500" }],
             },
             borderRadius: {
-                sm: "0.375rem",
-                DEFAULT: "0.75rem",
-                md: "0.75rem",
-                lg: "1rem",
+                sm: "0.5rem",
+                DEFAULT: "1rem",
+                md: "1rem",
+                lg: "1.5rem",
                 xl: "1.5rem",
                 "2xl": "2rem",
                 full: "9999px",
@@ -69,13 +69,13 @@ const config: Config = {
                 section: "5rem",
             },
             backdropBlur: {
-                glass: "12px",
+                glass: "16px",
             },
             boxShadow: {
-                soft: "0 4px 20px -2px rgba(0, 0, 0, 0.5)",
-                medium: "0 10px 30px -3px rgba(0, 0, 0, 0.6)",
-                glow: "0 0 20px rgba(249, 115, 22, 0.15)",
-                "glow-hover": "0 0 30px rgba(249, 115, 22, 0.3)",
+                soft: "0 4px 40px -2px rgba(0, 0, 0, 0.05)",
+                medium: "0 10px 50px -3px rgba(0, 0, 0, 0.08)",
+                glow: "0 0 20px rgba(0, 0, 0, 0.05)",
+                "glow-hover": "0 0 30px rgba(0, 0, 0, 0.1)",
             },
         },
     },
