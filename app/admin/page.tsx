@@ -166,7 +166,7 @@ function MetricCard({ label, value }: { label: string; value: string }) {
 
 function PropertyCard({ property }: { property: Property }) {
     return (
-        <Link href={`/admin/imoveis/${property.id}`}>
+        <Link href={`/imoveis/${property.id}`}>
             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-sm transition-shadow">
                 <div className="relative h-36 bg-gray-100">
                     {property.images?.[0] ? (
